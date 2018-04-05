@@ -1,13 +1,12 @@
 package com.epam.ta.steps;
 
 import com.epam.ta.driver.WebDriverSingleton;
+import com.epam.ta.pages.*;
+import com.epam.ta.pages.forms.DeleteRepositoryForm;
+import com.epam.ta.utils.BrowserManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-
-import com.epam.ta.pages.CreateNewRepositoryPage;
-import com.epam.ta.pages.LoginPage;
-import com.epam.ta.pages.MainPage;
 
 public class Steps
 {
@@ -18,6 +17,9 @@ public class Steps
 	public void initBrowser()
 	{
 		driver = WebDriverSingleton.getDriver();
+		BrowserManager browserManager = new BrowserManager(driver);
+		browserManager.setTimeOuts();
+		browserManager.maximize();
 	}
 
 	public void closeDriver()
@@ -55,4 +57,36 @@ public class Steps
 		return createNewRepositoryPage.isCurrentRepositoryEmpty();
 	}
 
+    public boolean addReadMe() {
+        RepositoryPage repositoryPage = new RepositoryPage(driver);
+        repositoryPage.clickAddReadMe();
+        AddReadMePage addReadMePage = new AddReadMePage(driver);
+        addReadMePage.clickSubmitButton();
+        return repositoryPage.isReadMeLinkPresent();
+    }
+
+    public void logOut() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.logOut();
+    }
+
+    public boolean deleteCreatedRepository() {
+        RepositoryPage repositoryPage = new RepositoryPage(driver);
+        repositoryPage.navigateToSettings();
+        RepositorySettingsPage repositorySettingsPage = new RepositorySettingsPage(driver);
+        repositorySettingsPage.clickDeleteRepoButton();
+        DeleteRepositoryForm deleteRepositoryForm = new DeleteRepositoryForm(driver);
+        deleteRepositoryForm.fillVerificationInput(deleteRepositoryForm.getRepoName());
+        deleteRepositoryForm.submit();
+        MainPage mainPage = new MainPage(driver);
+        return mainPage.isDeletedSuccessfully();
+    }
+
+    public boolean renameRepository(String newRepoNamesitory) {
+        RepositoryPage repositoryPage = new RepositoryPage(driver);
+        repositoryPage.navigateToSettings();
+        RepositorySettingsPage repositorySettingsPage = new RepositorySettingsPage(driver);
+        String expectedName = repositorySettingsPage.renameRepository(newRepoNamesitory);
+        return expectedName.equals(repositoryPage.getCurrentRepositoryName());
+    }
 }

@@ -1,11 +1,13 @@
 package com.epam.ta.pages;
 
+import com.epam.ta.elements.Button;
+import com.epam.ta.elements.Input;
+import com.epam.ta.elements.Label;
+import com.epam.ta.elements.Link;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import com.epam.ta.utils.Utils;
 
@@ -15,19 +17,19 @@ public class CreateNewRepositoryPage extends AbstractPage
 	private final Logger logger = LogManager.getRootLogger();
 
 	@FindBy(id = "repository_name")
-	private WebElement inputRepositoryName;
+	private Input repositoryNameInput;
 
 	@FindBy(id = "repository_description")
-	private WebElement inputRepositoryDescription;
+	private Input repositoryDescriptionInput;
 
 	@FindBy(xpath = "//form[@id='new_repository']//button[@type='submit']")
-	private WebElement butttonCreate;
+	private Button createButton;
 
-	@FindBy(className = "empty-repo-setup-option")
-	private WebElement labelEmptyRepoSetupOption;
+	@FindBy(xpath = "//div[@class='Box-header Box-header--blue']//*[contains(text(),'Quick setup')]")
+	private Label emptyRepoSetupLabel;
 
 	@FindBy(xpath = "//a[@data-pjax='#js-repo-pjax-container']")
-	private WebElement linkCurrentRepository;
+	private Link currentRepositoryLink;
 
 	public CreateNewRepositoryPage(WebDriver driver)
 	{
@@ -36,21 +38,21 @@ public class CreateNewRepositoryPage extends AbstractPage
 
 	public boolean isCurrentRepositoryEmpty()
 	{
-		return labelEmptyRepoSetupOption.isDisplayed();
+		return emptyRepoSetupLabel.isPresent();
 	}
 
 	public String createNewRepository(String repositoryName, String repositoryDescription)
 	{
 		String repositoryFullName = repositoryName + Utils.getRandomString(6);
-		inputRepositoryName.sendKeys(repositoryFullName);
-		inputRepositoryDescription.sendKeys(repositoryDescription);
-		butttonCreate.click();
+		repositoryNameInput.write(repositoryFullName);
+		repositoryDescriptionInput.write(repositoryDescription);
+		createButton.click();
 		return repositoryFullName;
 	}
 
 	public String getCurrentRepositoryName()
 	{
-		return linkCurrentRepository.getText();
+		return currentRepositoryLink.getText();
 	}
 
 	@Override

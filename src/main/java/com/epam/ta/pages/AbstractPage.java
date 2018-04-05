@@ -13,6 +13,7 @@ public abstract class AbstractPage
 	public AbstractPage(WebDriver driver)
 	{
 		this.driver = driver;
+		//using decorator to create custom elements
 		PageFactory.initElements(new CustomFieldDecorator(this.driver), this);
 	}
 }

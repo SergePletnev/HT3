@@ -3,7 +3,7 @@ package com.epam.ta.elements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 
-public class Button extends BaseElement {
+public class Button extends AbstractElement {
     public Button(WebElement webElement) {
         super(webElement);
     }

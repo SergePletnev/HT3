@@ -2,8 +2,8 @@ package com.epam.ta.elements;
 
 import org.openqa.selenium.WebElement;
 
-public class Form extends BaseElement {
-    public Form(WebElement webElement) {
+public class DropDown extends AbstractElement {
+    public DropDown(WebElement webElement) {
         super(webElement);
     }
 }

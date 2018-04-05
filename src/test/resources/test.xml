@@ -3,7 +3,7 @@
 <suite name="Suite" parallel="false">
     <test name="JenkinsTest" enabled="true">
         <classes>
-            <class name=""/>
+            <class name="com.epam.ta.GitHubAutomationTest"/>
         </classes>
     </test>
 </suite>

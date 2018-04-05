@@ -3,10 +3,10 @@ package com.epam.ta.elements;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-public abstract class BaseElement {
+public abstract class AbstractElement {
     protected WebElement webElement;
 
-    public BaseElement (WebElement webElement) {
+    public AbstractElement(WebElement webElement) {
         this.webElement = webElement;
     }
 
@@ -28,11 +28,15 @@ public abstract class BaseElement {
 
     }
 
-    private boolean isAvailable() {
+    protected boolean isAvailable() {
         return this.webElement.isEnabled();
     }
 
     public String getText() {
         return this.webElement.getText();
+    }
+
+    public String getAttribute(String content) {
+        return webElement.getAttribute(content);
     }
 }
